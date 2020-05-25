@@ -38,7 +38,7 @@ var bob = await context.Write(async db =>
 });
 
 // write optimistically
-var bob = await context.Write(async db => 
+var bob = await context.WriteOptimistically(async db => 
 {
     var bob = await db.FindAsync<MyModel>(id);
     // add 1 to whatever number of points bob currently has
