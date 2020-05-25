@@ -73,3 +73,7 @@ public class MyAwesomeDbContextFactory : IAwesomeDbContextFactory<MyDbContext>
     }
 }
 ```
+
+## Testing it
+
+See this [Awesome Test](https://github.com/jamiemccrindle/awesome-entity-framework/blob/master/src/Awesome.EntityFramework.Tests/AwesomeTest.cs)
