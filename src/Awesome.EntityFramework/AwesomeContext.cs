@@ -10,7 +10,6 @@ namespace Awesome.EntityFramework
     {
         private readonly ILogger<AwesomeContext<TContext>> logger;
         private readonly IAwesomeDbContextFactory<TContext> factory;
-        public int MaxSaveAttempts => 10;
 
         public AwesomeContext(ILogger<AwesomeContext<TContext>> logger, IAwesomeDbContextFactory<TContext> factory)
         {
@@ -49,14 +48,14 @@ namespace Awesome.EntityFramework
             }
         }
 
-        public async Task<TResult> WriteOptimistically<TResult>(Func<DbContext, Task<TResult>> fn)
+        public async Task<TResult> WriteOptimistically<TResult>(Func<DbContext, Task<TResult>> fn, int maxSaveAttempts = 10)
         {
             using (var context = this.factory.Create())
             {
                 var saved = false;
                 var saveAttempts = 0;
                 DbUpdateConcurrencyException lastConcurrentException = null;
-                while (!saved && (saveAttempts++ < MaxSaveAttempts || MaxSaveAttempts == -1))
+                while (!saved && (saveAttempts++ < maxSaveAttempts || maxSaveAttempts == -1))
                 {
                     using (var transaction = context.Database.BeginTransaction())
                     {

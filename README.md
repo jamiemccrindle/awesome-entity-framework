@@ -48,6 +48,10 @@ var bob = await context.Write(async db =>
 
 ```
 
+Note: WriteOptimistically takes a second argument called maxSaveAttempts which defaults to 10 after
+which it will throw the last DbUpdateConcurrencyException. You can set this to -1 and it will deep
+retrying indefinitely.
+
 ## Setting it up
 
 ```c#

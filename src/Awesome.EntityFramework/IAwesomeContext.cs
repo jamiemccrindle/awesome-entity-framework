@@ -8,6 +8,6 @@ namespace Awesome.EntityFramework
     {
         Task<TResult> Read<TResult>(Func<DbContext, Task<TResult>> fn);
         Task<TResult> Write<TResult>(Func<DbContext, Task<TResult>> fn);
-        Task<TResult> WriteOptimistically<TResult>(Func<DbContext, Task<TResult>> fn);
+        Task<TResult> WriteOptimistically<TResult>(Func<DbContext, Task<TResult>> fn, int maxSaveAttempts);
     }
 }
