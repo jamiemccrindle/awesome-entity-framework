@@ -79,8 +79,8 @@ namespace Awesome.EntityFramework
                             throw;
                         }
                     }
-                    throw lastConcurrentException;
                 }
+                throw lastConcurrentException;
             }
         }
 
