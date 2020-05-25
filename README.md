@@ -30,18 +30,20 @@ var model = await context.Read(async db => await db.FindAsync<MyModel>(id));
 // write to the database
 var bob = await context.Write(async db => 
 {
-    var result = db.AddAsync(new MyModel {
+    var result = await db.AddAsync(new MyModel {
         Id = Guid.NewGuid(),
         Name = "Bob"
     });
+    return result.Entity;
 });
 
 // write optimistically
 var bob = await context.Write(async db => 
 {
-    var bob = db.FindAsync<MyModel>(id);
+    var bob = await db.FindAsync<MyModel>(id);
     // add 1 to whatever number of points bob currently has
     bob.Points += 1;
+    return bob;
 });
 
 ```
