@@ -1,4 +1,4 @@
-bin\
-obj\
+bin/
+obj/
 *.log
-node_modules\
+node_modules/
