@@ -54,12 +54,12 @@ namespace Awesome.EntityFramework
         {
             using (var context = this.factory.Create())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                var saved = false;
+                var saveAttempts = 0;
+                DbUpdateConcurrencyException lastConcurrentException = null;
+                while (!saved && (saveAttempts++ < this.maxSaveAttempts || this.maxSaveAttempts == -1))
                 {
-                    var saved = false;
-                    var saveAttempts = 0;
-                    DbUpdateConcurrencyException lastConcurrentException = null;
-                    while (!saved && (saveAttempts++ < this.maxSaveAttempts || this.maxSaveAttempts == -1))
+                    using (var transaction = context.Database.BeginTransaction())
                     {
                         try
                         {
@@ -70,6 +70,7 @@ namespace Awesome.EntityFramework
                         }
                         catch (DbUpdateConcurrencyException ex)
                         {
+                            await transaction.RollbackAsync();
                             logger.LogDebug("Concurrency Failure", ex);
                             lastConcurrentException = ex;
                         }
