@@ -6,9 +6,9 @@ This repo is an example of an awesome way to use EntityFramework Core.
 
 Once it's set up, you get access to an IAwesomeContext which has 3 methods:
 
-* Read - Read from the database
-* Write - Write to the database
-* WriteOptimistically - Write Optimistically, i.e. retry if a concurrency exception is thrown
+* `Read` - Read from the database
+* `Write` - Write to the database
+* `WriteOptimistically` - Write Optimistically, i.e. retry if a concurrency exception is thrown
 
 e.g.:
 
@@ -48,7 +48,7 @@ var bob = await context.Write(async db =>
 
 ```
 
-Note: WriteOptimistically takes a second argument called maxSaveAttempts which defaults to 10 after
+Note: `WriteOptimistically` takes a second argument called maxSaveAttempts which defaults to 10 after
 which it will throw the last DbUpdateConcurrencyException. You can set this to -1 and it will deep
 retrying indefinitely.
 
