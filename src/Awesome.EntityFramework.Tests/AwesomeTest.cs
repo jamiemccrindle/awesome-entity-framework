@@ -21,8 +21,7 @@ namespace Awesome.EntityFramework.Tests
     public class TestDbContext : DbContext
     {
         public TestDbContext(DbContextOptions<TestDbContext> options) : base(options)
-        {
-        }
+        { }
 
         public DbSet<AwesomeModel> AwesomeModels { get; set; }
     }
@@ -41,11 +40,13 @@ namespace Awesome.EntityFramework.Tests
             var logger = new LoggerFactory().CreateLogger<AwesomeContext<TestDbContext>>();
             var context = new AwesomeContext<TestDbContext>(logger, factory);
             var id = Guid.NewGuid();
-            var added = await context.Write(async db => {
-                var result = await db.AddAsync(new AwesomeModel {
+            var added = await context.Write(async db =>
+            {
+                var result = await db.AddAsync(new AwesomeModel
+                {
                     Id = id,
                     Name = "Bob"
-                } );
+                });
                 return result.Entity;
             });
             Assert.Equal("Bob", added.Name);
