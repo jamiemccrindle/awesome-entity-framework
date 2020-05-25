@@ -27,30 +27,16 @@ namespace Awesome.EntityFramework.Tests
         public DbSet<AwesomeModel> AwesomeModels { get; set; }
     }
 
-    public class TestAwesomeDbContextFactory : IAwesomeDbContextFactory<TestDbContext>
-    {
-        private readonly DbContextOptions<TestDbContext> options;
-
-        public TestAwesomeDbContextFactory(DbContextOptions<TestDbContext> options)
-        {
-            this.options = options;
-        }
-        public TestDbContext Create()
-        {
-            return new TestDbContext(options);
-        }
-    }
-
     public class AwesomeTest
     {
         [Fact]
         public async Task TestReadAndWrite()
         {
-            var factory = new TestAwesomeDbContextFactory(
+            var factory = AwesomeEntityFramework.DefaultFactory<TestDbContext>(
                 new DbContextOptionsBuilder<TestDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-                .Options);
+                .Options, options => new TestDbContext(options));
 
             var logger = new LoggerFactory().CreateLogger<AwesomeContext<TestDbContext>>();
             var context = new AwesomeContext<TestDbContext>(logger, factory);
